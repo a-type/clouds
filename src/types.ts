@@ -7,19 +7,16 @@ export type Triangle = {
   points: [THREE.Vector3, THREE.Vector3, THREE.Vector3];
 };
 
-export type ChunkData = {
-  verts: THREE.Vector3[][][][];
-  faces: THREE.Face3[][][][];
-  chunkX: number;
-  chunkY: number;
-  chunkZ: number;
+export type GeometryData = {
+  hasPositions: boolean;
+  positionArray: Float32Array;
+  hasNormals: boolean;
+  normalArray: Float32Array;
+  hasColors: boolean;
+  colorArray: Float32Array;
+  hasUvs: boolean;
+  uvArray: Float32Array;
+  count: number;
 };
 
-export type WorkerData = {
-  size: number;
-  stepSize: number;
-  chunkSize: number;
-  chunkCoordinate: [number, number, number];
-  voxelData: number[][][];
-  batchSize: [number, number, number];
-};
+export type WorkerData = {};
