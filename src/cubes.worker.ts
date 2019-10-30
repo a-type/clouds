@@ -496,8 +496,6 @@ function blur(intensity: number = 1) {
 function generate(data: WorkerData) {
   fillFieldWithPerlin();
 
-  console.debug(field);
-
   const sizeMinus2 = size - 2;
   for (let z = 1; z < sizeMinus2; z++) {
     const zOffset = size2 * z;
@@ -513,8 +511,6 @@ function generate(data: WorkerData) {
       }
     }
   }
-
-  console.debug(vertexList);
 
   const result: GeometryData = {
     hasPositions: true,
