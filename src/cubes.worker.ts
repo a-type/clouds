@@ -1,6 +1,7 @@
 import cubesValues from './cubesValues';
 import { WorkerData, GeometryData } from './types';
 import { perlin3 } from './perlin';
+import cloudInflator from './cloudInflator';
 
 // Essentially copied from https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/MarchingCubes.js
 // with alterations for brevity and readability (why do graphics programmers always use
@@ -14,7 +15,7 @@ const colorList = new Float32Array(12 * 3);
 const enableUvs = false;
 const enableColors = false;
 
-const size = 16;
+const size = 32;
 const size2 = size * size;
 const size3 = size2 * size;
 const halfSize = size / 2.0;
@@ -24,7 +25,7 @@ const delta = 2.0 / size;
 const yDelta = size;
 const zDelta = size2;
 
-const field = new Float32Array(size3); // voxels?
+const field = new Float32Array(size3); // voxels
 const normalCache = new Float32Array(size3 * 3); // vectors
 const palette = new Float32Array(size3 * 3); // colors
 
@@ -494,7 +495,10 @@ function blur(intensity: number = 1) {
 }
 
 function generate(data: WorkerData) {
-  fillFieldWithPerlin();
+  //fillFieldWithPerlin();
+  cloudInflator(field, size);
+  blur();
+  console.debug(field);
 
   const sizeMinus2 = size - 2;
   for (let z = 1; z < sizeMinus2; z++) {
@@ -524,6 +528,7 @@ function generate(data: WorkerData) {
     count,
   };
 
+  console.log('Worker finished');
   context.postMessage(result);
 }
 

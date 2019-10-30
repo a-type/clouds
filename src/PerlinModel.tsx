@@ -31,7 +31,7 @@ export const PerlinModel: FC<PerlinProps> = ({
     },
   });
 
-  useFrame(() => (ref.current.rotation.y += 0.001));
+  useFrame(() => (ref.current.rotation.y += 0.005));
 
   const [geometry, setGeometries] = useState<THREE.BufferGeometry | null>(null);
   useEffect(() => {

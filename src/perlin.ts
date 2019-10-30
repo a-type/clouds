@@ -316,7 +316,7 @@ const seed = (value: number) => {
   }
 };
 
-seed(0);
+seed(Math.random());
 
 // Skewing and unskewing factors for 2, 3, and 4 dimensions
 const F2 = 0.5 * (Math.sqrt(3) - 1);
