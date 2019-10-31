@@ -1,23 +1,36 @@
 import React from 'react';
 import './App.css';
 import { Canvas } from 'react-three-fiber';
-import { PerlinModel } from './PerlinModel';
 import { Vector3, Color } from 'three';
+import { Camera } from './Camera';
+import { CloudMap } from './CloudMap';
+import { Sun } from './Sun';
+import {
+  skyColor,
+  sunColor,
+  ambientLightColor as ambientLightColorString,
+} from './colors';
 
-const pointLightPosition = new Vector3(0, 100, 0);
-const pointLightColor = new Color(0xff3300);
-const ambientLightColor = new Color(0x080808);
+const pointLightPosition = new Vector3(0, 10, 0);
+const pointLightColor = new Color(sunColor);
+const ambientLightColor = new Color(ambientLightColorString);
+
+const windVelocity = new Vector3(0.001, 0, 0);
+
+const cameraPosition = [0, 2, 10];
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Canvas>
-        <pointLight position={pointLightPosition} color={pointLightColor} />
+      <Canvas shadowMap style={{ backgroundColor: skyColor }}>
+        <Camera position={cameraPosition} />
+        <Sun position={pointLightPosition} color={pointLightColor} />
         <ambientLight color={ambientLightColor} />
-        <PerlinModel
+        <CloudMap
           pointLightPosition={pointLightPosition}
           pointLightColor={pointLightColor}
           ambientLightColor={ambientLightColor}
+          velocity={windVelocity}
         />
       </Canvas>
     </div>

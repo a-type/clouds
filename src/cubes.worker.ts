@@ -15,7 +15,7 @@ const colorList = new Float32Array(12 * 3);
 const enableUvs = false;
 const enableColors = false;
 
-const size = 32;
+const size = 64;
 const size2 = size * size;
 const size3 = size2 * size;
 const halfSize = size / 2.0;
@@ -33,7 +33,7 @@ const maxCount = size3 * 3;
 let count = 0;
 
 let flatShading = false;
-let isolation = 0.01;
+let isolation = 0.03;
 
 const uvMap = null; // unsure of how to do this
 

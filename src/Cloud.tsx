@@ -1,37 +1,48 @@
 import React, { FC, useRef, useEffect, useState, useMemo } from 'react';
-import { useFrame } from 'react-three-fiber';
+import { useFrame, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 import generateVoxelGeometries from './generateVoxelGeometries';
 import ToonShaderDotted from './shaders/ToonShaderDotted';
-import { Color, Vector3 } from 'three';
+import { Color, Vector3, Frustum, Matrix4, Mesh, Group } from 'three';
+import { cloudWhiteColor, cloudShadowColor } from './colors';
 
-export type PerlinProps = {
+export type CloudProps = {
   pointLightPosition: Vector3;
   pointLightColor: Color;
   ambientLightColor: Color;
   baseColor?: Color;
   shadeColor?: Color;
+  velocity: Vector3;
+  id: string;
+  initialPosition: Vector3;
+  onExitBoundary: (id: string) => any;
+  boundarySize: number;
 };
 
-const white = new Color(0xffffff);
-const black = new Color(0x000000);
+const white = new Color(cloudWhiteColor);
+const black = new Color(cloudShadowColor);
 
-export const PerlinModel: FC<PerlinProps> = ({
+export const Cloud: FC<CloudProps> = ({
   pointLightPosition,
   pointLightColor,
   ambientLightColor,
   baseColor = white,
   shadeColor = black,
+  velocity,
+  onExitBoundary,
+  id,
+  initialPosition,
 }) => {
-  const ref = useRef({
-    rotation: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-  });
+  const ref = useRef<Group>();
 
-  useFrame(() => (ref.current.rotation.y += 0.005));
+  useFrame(() => {
+    if (!ref.current) return;
+
+    ref.current.position.add(velocity);
+    if (ref.current.position.length() > 1200) {
+      onExitBoundary(id);
+    }
+  });
 
   const [geometry, setGeometries] = useState<THREE.BufferGeometry | null>(null);
   useEffect(() => {
@@ -65,20 +76,22 @@ export const PerlinModel: FC<PerlinProps> = ({
     return null;
   }
 
-  console.log(`Rendering geometry:`, geometry);
-
   return (
     <>
-      <mesh
-        ref={ref}
-        onClick={e => console.log('click')}
-        onPointerOver={e => console.log('hover')}
-        onPointerOut={e => console.log('unhover')}
-        geometry={geometry}
-        scale={[2, 2, 2]}
-      >
-        <shaderMaterial attach="material" args={[shaderArgs]} />
-      </mesh>
+      <group ref={ref} position={initialPosition}>
+        <mesh geometry={geometry} scale={[8, 8, 8]}>
+          <shaderMaterial attach="material" args={[shaderArgs]} />
+          {/* <meshPhongMaterial color="#eee" attach="material" /> */}
+        </mesh>
+        <mesh geometry={geometry} scale={[8, 0, 8]} position={[0, -9, 0]}>
+          <meshBasicMaterial
+            transparent
+            opacity={0.1}
+            color="black"
+            attach="material"
+          />
+        </mesh>
+      </group>
     </>
   );
 };
