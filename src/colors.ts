@@ -1,6 +1,9 @@
 export const cloudWhiteColor = '#ffe7d1';
-export const cloudShadowColor = '#d27c2f';
+export const cloudShadowColor1 = '#ffba7d';
+export const cloudShadowColor2 = '#9e5616';
+export const cloudShadowColor3 = '#5a2c08';
+export const cloudShadowColor4 = '#300200';
 export const groundColor = '#208e79';
 export const skyColor = '#6AC5D6';
-export const ambientLightColor = '#080808';
-export const sunColor = '#eee';
+export const ambientLightColor = '#444';
+export const sunColor = '#fff';

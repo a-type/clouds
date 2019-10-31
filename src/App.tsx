@@ -11,13 +11,13 @@ import {
   ambientLightColor as ambientLightColorString,
 } from './colors';
 
-const pointLightPosition = new Vector3(0, 10, 0);
+const pointLightPosition = new Vector3(0, 10, 5);
 const pointLightColor = new Color(sunColor);
 const ambientLightColor = new Color(ambientLightColorString);
 
 const windVelocity = new Vector3(0.001, 0, 0);
 
-const cameraPosition = [0, 2, 10];
+const cameraPosition = [0, 8, 10];
 
 const App: React.FC = () => {
   return (

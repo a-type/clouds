@@ -5,3 +5,7 @@ declare module '*.worker' {
 
   export default CustomWorker;
 }
+
+declare module 'tumult' {
+  export default any;
+}

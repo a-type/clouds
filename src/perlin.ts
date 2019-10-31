@@ -292,7 +292,7 @@ const p = [
 const perm = new Array(512);
 const gradP = new Array(512);
 
-const seed = (value: number) => {
+export const seed = (value: number) => {
   if (value > 0 && value < 1) {
     // Scale the seed out
     value *= 65536;
@@ -316,7 +316,7 @@ const seed = (value: number) => {
   }
 };
 
-seed(Math.random());
+seed(0.5);
 
 // Skewing and unskewing factors for 2, 3, and 4 dimensions
 const F2 = 0.5 * (Math.sqrt(3) - 1);

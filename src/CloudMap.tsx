@@ -16,17 +16,27 @@ export type CloudFieldProps = Omit<
   size?: number;
 };
 
-export const CloudMap: FC<CloudFieldProps> = ({
-  size = 100,
-  ...cloudProps
-}) => {
+export const CloudMap: FC<CloudFieldProps> = ({ size = 25, ...cloudProps }) => {
   const [clouds, setClouds] = useState<{ [id: string]: CloudData }>({});
 
   useEffect(() => {
     const initClouds: { [id: string]: CloudData } = {};
+
+    // one cloud always at 0
+    const firstId = randomId();
+    initClouds[firstId] = {
+      id: firstId,
+      initialPosition: new Vector3(0, 0, 0),
+      size: randomSize(),
+    };
+
     for (let i = 0; i < numClouds; i++) {
       const id = randomId();
-      initClouds[id] = { id, initialPosition: randomPosition(size) };
+      initClouds[id] = {
+        id,
+        initialPosition: randomPosition(size),
+        size: randomSize(),
+      };
     }
     setClouds(initClouds);
   }, []);
@@ -35,6 +45,7 @@ export const CloudMap: FC<CloudFieldProps> = ({
     const newCloud = {
       id: randomId(),
       initialPosition: randomPosition(size),
+      size: randomSize(),
     };
 
     setClouds(c => {
@@ -56,12 +67,7 @@ export const CloudMap: FC<CloudFieldProps> = ({
           onExitBoundary={onCloudExitFrame}
         />
       ))}
-      <mesh
-        scale={[4, 4, 4]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -6, 0]}
-        receiveShadow
-      >
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeBufferGeometry args={[planeSize, planeSize]} attach="geometry" />
         <meshBasicMaterial color={groundColor} attach="material" />
       </mesh>
@@ -72,6 +78,7 @@ export const CloudMap: FC<CloudFieldProps> = ({
 type CloudData = {
   id: string;
   initialPosition: Vector3;
+  size: number;
 };
 
 const randomId = () => `${Math.random() * 10000000}`;
@@ -79,6 +86,8 @@ const randomId = () => `${Math.random() * 10000000}`;
 const randomPosition = (boundarySize: number) =>
   new Vector3(
     Math.random() * boundarySize - boundarySize / 2,
-    4,
+    0,
     Math.random() * boundarySize - boundarySize / 2,
   );
+
+const randomSize = () => Math.random() * 84 + 120;

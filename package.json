@@ -60,6 +60,7 @@
     "terser-webpack-plugin": "1.4.1",
     "three": "^0.109.0",
     "ts-pnp": "1.1.4",
+    "tumult": "^3.0.14",
     "typescript": "3.6.3",
     "url-loader": "2.1.0",
     "webpack": "4.41.0",
