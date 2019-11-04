@@ -14,7 +14,7 @@ import { Text } from './Text';
 import LightContext from './LightContext';
 
 const lightContext = {
-  pointLightPosition: new Vector3(0, 100, 0),
+  pointLightPosition: new Vector3(100, 100, 0),
   pointLightColor: new Color(sunColor),
   ambientLightColor: new Color(ambientLightColorString),
 };
