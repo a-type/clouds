@@ -519,22 +519,6 @@ context.addEventListener('message', function(ev) {
     }
   }
 
-  /**
-   * takes a slice of the voxel field at a particular height
-   * and writes the slice to a 2d array
-   */
-  function extractShadowTextureData(verticalSlice: number) {
-    const shadowMap = new Float32Array(size2);
-    for (let x = 0; x < size; x++) {
-      for (let z = 0; z < size; z++) {
-        const val = getValue(field, size, x, verticalSlice, z);
-        // somewhere, z got flipped. not sure why.
-        shadowMap[x + (size - z) * size] = val;
-      }
-    }
-    return shadowMap;
-  }
-
   function generate(data: CloudWorkerData) {
     //fillFieldWithPerlin();
     cloudInflator(field, size, data.inflationPasses);
@@ -568,7 +552,6 @@ context.addEventListener('message', function(ev) {
       hasUvs: enableUvs,
       uvArray,
       count,
-      shadowMap: extractShadowTextureData(1),
     };
 
     console.log('Worker finished');

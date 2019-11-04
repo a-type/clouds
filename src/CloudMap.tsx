@@ -15,7 +15,7 @@ export type CloudFieldProps = Omit<
 
 export const CloudMap: FC<CloudFieldProps> = ({
   size = 120,
-  numClouds = 10,
+  numClouds = 6,
   ...cloudProps
 }) => {
   const [clouds, setClouds] = useState<{ [id: string]: CloudData }>({});
@@ -77,4 +77,4 @@ const randomPosition = (boundarySize: number) =>
     Math.random() * boundarySize - boundarySize / 2,
   );
 
-const randomSize = () => Math.random() * 424 + 280;
+const randomSize = () => Math.random() * 424 + 380;

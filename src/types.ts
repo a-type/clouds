@@ -17,7 +17,6 @@ export type CloudWorkerResult = {
   hasUvs: boolean;
   uvArray: Float32Array;
   count: number;
-  shadowMap: Float32Array;
 };
 
 export type CloudWorkerData = {

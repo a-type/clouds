@@ -21,7 +21,7 @@ const lightContext = {
 
 const windVelocity = new Vector3(0.03, 0, 0);
 
-const cameraPosition = [-8, 32, 40];
+const cameraPosition = [-6, 24, 30];
 
 const App: React.FC = () => {
   return (
@@ -39,7 +39,7 @@ const App: React.FC = () => {
             />
             <ambientLight color={lightContext.ambientLightColor} />
             <CloudMap velocity={windVelocity} />
-            <Text size={1}>Grant Forrest</Text>
+            <Text size={0.8}>Grant Forrest</Text>
           </Suspense>
         </Canvas>
       </LightContext.Provider>

@@ -9,10 +9,9 @@ import React, {
 } from 'react';
 import { useFrame } from 'react-three-fiber';
 import generateVoxelGeometries from './generateVoxelGeometries';
-import { Color, Vector3, Group, BufferGeometry, DataTexture } from 'three';
+import { Vector3, Group, BufferGeometry, DataTexture } from 'three';
 import { a, useSpring, config } from '@react-spring/three';
 import { CloudShaderMaterial } from './CloudShaderMaterial';
-import LightContext from './LightContext';
 
 export type CloudProps = {
   velocity: Vector3;
@@ -27,7 +26,6 @@ export type CloudProps = {
 type GeometryState = {
   geometry: BufferGeometry;
   resolution: number;
-  shadow: DataTexture;
 };
 
 export const Cloud: FC<CloudProps> = ({
@@ -49,12 +47,11 @@ export const Cloud: FC<CloudProps> = ({
   const generateLod = useCallback(
     () =>
       generateVoxelGeometries({ resolution: providedResolution }).then(
-        ({ geometry: geo, shadow }) =>
+        ({ geometry: geo }) =>
           setLodGeometries(existing => {
             existing.set(providedResolution, {
               resolution: providedResolution,
               geometry: geo,
-              shadow,
             });
             return new Map(existing);
           }),
@@ -99,7 +96,7 @@ export const Cloud: FC<CloudProps> = ({
     return null;
   }
 
-  const { geometry, resolution, shadow } = lodGeometries.get(Array.from(
+  const { geometry, resolution } = lodGeometries.get(Array.from(
     lodGeometries.keys(),
   )
     .sort()
@@ -124,27 +121,13 @@ export const Cloud: FC<CloudProps> = ({
         scale={[scale, scale, scale]}
         rotation={[0, rotation.current, 0]}
       >
-        <mesh geometry={geometry} position={[0, 2, 0]} castShadow>
-          {/* <meshPhongMaterial color="#eee" attach="material" /> */}
+        <mesh
+          geometry={geometry}
+          position={[0, 2 * (480 / size), 0]}
+          castShadow
+        >
           <CloudShaderMaterial attach="material" />
         </mesh>
-        {/* <mesh
-          position={[0, 0.5 + Math.random() * 0.01, 0]}
-          rotation={[Math.PI * 1.5, 0, 0]}
-        >
-          <planeBufferGeometry args={[2, 2]} attach="geometry" />
-          <meshBasicMaterial
-            transparent
-            attach="material"
-            map={shadow}
-            depthTest={true}
-            // an alpha value must be at least 15 to be blended.
-            // this allows fully transparent portions of overlapping shadows
-            // to be ignored (no empty corner cutting into adjacent shadow)
-            alphaTest={15.0 / 255.0}
-          />
-          {/* <meshBasicMaterial color="#ffffff" attach="material" /> */}
-        {/*</mesh> */}
       </a.group>
     </>
   );

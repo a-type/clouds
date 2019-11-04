@@ -16,10 +16,10 @@ export type SunProps = {
 const shadow = new DirectionalLightShadow(
   new OrthographicCamera(-50, 50, -50, 50, 0.5, 1000),
 );
-shadow.camera.left = -50;
-shadow.camera.right = 50;
-shadow.camera.top = 50;
-shadow.camera.bottom = -50;
+shadow.camera.left = -100;
+shadow.camera.right = 100;
+shadow.camera.top = 100;
+shadow.camera.bottom = -100;
 shadow.camera.far = 1000;
 shadow.mapSize = new Vector2(1024, 1024);
 shadow.radius = 2;
