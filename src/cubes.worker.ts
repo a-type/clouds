@@ -537,7 +537,7 @@ context.addEventListener('message', function(ev) {
 
   function generate(data: CloudWorkerData) {
     //fillFieldWithPerlin();
-    cloudInflator(field, size);
+    cloudInflator(field, size, data.inflationPasses);
     blur();
 
     // starting at -1 closes up the bottom of the mesh!

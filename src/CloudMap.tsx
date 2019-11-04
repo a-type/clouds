@@ -2,9 +2,8 @@ import React, { FC, useState, useEffect, useCallback } from 'react';
 import { CloudProps, Cloud } from './Cloud';
 import { Vector3, Color, DataTexture } from 'three';
 import { groundColor1 as groundColorString } from './colors';
-import generateLandTexture from './generateLandTexture';
 
-const planeSize = 100;
+const planeSize = 1000;
 
 export type CloudFieldProps = Omit<
   CloudProps,
@@ -15,12 +14,11 @@ export type CloudFieldProps = Omit<
 };
 
 export const CloudMap: FC<CloudFieldProps> = ({
-  size = 80,
+  size = 120,
   numClouds = 10,
   ...cloudProps
 }) => {
   const [clouds, setClouds] = useState<{ [id: string]: CloudData }>({});
-  const [landTexture, setLandTexture] = useState<DataTexture>();
 
   useEffect(() => {
     const initClouds: { [id: string]: CloudData } = {};
@@ -44,33 +42,6 @@ export const CloudMap: FC<CloudFieldProps> = ({
     setClouds(initClouds);
   }, [size]);
 
-  useEffect(() => {
-    generateLandTexture({ resolution: planeSize * 10 }).then(({ texture }) =>
-      setLandTexture(texture),
-    );
-  }, []);
-
-  const onCloudExitFrame = useCallback(
-    (id: string) => {
-      const newCloud = {
-        id: randomId(),
-        initialPosition: randomPosition(size),
-        size: randomSize(),
-      };
-
-      // setClouds(c => {
-      //   const { [id]: _unused, ...rest } = c;
-      //   rest[newCloud.id] = newCloud;
-      //   return rest;
-      // });
-    },
-    [setClouds, size],
-  );
-
-  if (!landTexture) {
-    return null;
-  }
-
   return (
     <>
       {Object.keys(clouds).map(id => (
@@ -79,17 +50,13 @@ export const CloudMap: FC<CloudFieldProps> = ({
           key={id}
           boundarySize={size}
           initialPosition={clouds[id].initialPosition}
+          size={clouds[id].size}
           {...cloudProps}
-          onExitBoundary={onCloudExitFrame}
         />
       ))}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[planeSize, planeSize]} attach="geometry" />
-        <meshLambertMaterial
-          //color={groundColor}
-          attach="material"
-          map={landTexture}
-        />
+        <meshLambertMaterial attach="material" color={groundColorString} />
       </mesh>
     </>
   );
@@ -110,4 +77,4 @@ const randomPosition = (boundarySize: number) =>
     Math.random() * boundarySize - boundarySize / 2,
   );
 
-const randomSize = () => Math.random() * 84 + 120;
+const randomSize = () => Math.random() * 424 + 280;

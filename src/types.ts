@@ -22,6 +22,7 @@ export type CloudWorkerResult = {
 
 export type CloudWorkerData = {
   resolution: number;
+  inflationPasses: number;
 };
 
 export type LandWorkerData = {

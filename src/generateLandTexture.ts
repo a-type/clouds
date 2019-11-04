@@ -10,7 +10,7 @@ import {
 export default ({ resolution }: { resolution: number }) => {
   const data: LandWorkerData = {
     resolution,
-    noiseSize: 2,
+    noiseSize: 32,
     groundColor1,
     groundColor2,
   };

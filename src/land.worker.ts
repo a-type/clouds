@@ -1,7 +1,7 @@
 import tumult from 'tumult';
 import { Color } from 'three';
 
-const noiseDampening = 0;
+const noiseDampening = 0.3;
 const noiseTippingPoint = 0.01;
 
 const seed = 'seed' + Math.random() * 100000;
@@ -23,6 +23,11 @@ context.addEventListener('message', function(ev) {
   const parsedGroundColor2 = parseColor(groundColor2);
 
   const getColor = (noiseValue: number) => {
+    if (noiseValue > noiseTippingPoint) {
+      return parsedGroundColor2;
+    }
+    return parsedGroundColor1;
+
     return interpolateColors(
       parsedGroundColor1,
       parsedGroundColor2,

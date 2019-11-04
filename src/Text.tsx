@@ -9,7 +9,7 @@ export type TextProps = {
 };
 
 export const Text: FC<TextProps> = ({ children, size = 1 }) => {
-  const font = useLoader(FontLoader as any, '/fonts/Jomolhari_Regular.json');
+  const font = useLoader(FontLoader as any, '/fonts/Roboto Light_Regular.json');
   const config = useMemo(
     () => ({
       font,
@@ -35,7 +35,7 @@ export const Text: FC<TextProps> = ({ children, size = 1 }) => {
       scale={[0.1 * size, 0.1 * size, 0.1]}
       rotation={[-Math.PI / 2, 0, 0]}
     >
-      <mesh ref={mesh}>
+      <mesh ref={mesh} receiveShadow>
         <textGeometry
           attach="geometry"
           args={[children, config] as [string, any]}

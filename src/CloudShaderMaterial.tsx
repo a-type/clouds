@@ -31,11 +31,14 @@ export const CloudShaderMaterial: FC<CloudShaderMaterialProps> = ({
 
   const shaderArgs = useMemo(
     () => ({
+      fog: true,
+      lights: true,
+      dithering: true,
       uniforms: {
         ...Shader.uniforms,
         uDirLightPos: { value: pointLightPosition },
         uDirLightColor: { value: pointLightColor },
-        uAmbientLightColor: { value: ambientLightColor },
+        ambientLightColor: { value: ambientLightColor },
         uBaseColor: { value: baseColor },
         uLineColor1: { value: shadeColor1 },
         uLineColor2: { value: shadeColor2 },

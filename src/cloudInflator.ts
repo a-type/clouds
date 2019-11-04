@@ -17,10 +17,6 @@ import { setValue, getValue } from './voxelField';
  */
 const baseInflationSize = 4;
 /**
- * Number of times to iterate over points and inflate them
- */
-const inflationPasses = 2;
-/**
  * how high the base layer is positioned from the ground. a larger value allows clouds
  * to expand downward
  */
@@ -174,7 +170,11 @@ function generateSphere(radius: number) {
   return values;
 }
 
-export default function(field: Float32Array, size: number) {
+export default function(
+  field: Float32Array,
+  size: number,
+  inflationPasses: number = 2,
+) {
   field = generatePerlinBase(field, size);
   for (let i = 0; i < inflationPasses; i++) {
     field = inflateIteration(field, size);

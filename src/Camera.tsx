@@ -30,7 +30,7 @@ export const Camera: FC<CameraProps> = ({ position, controlled = false }) => {
         position={position}
         onUpdate={self => {
           self.updateProjectionMatrix();
-          self.lookAt(new Vector3(0, 0, 0));
+          self.lookAt(new Vector3(0, 2, 0));
         }}
       />
       {controlled && camera.current && (

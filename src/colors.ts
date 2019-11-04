@@ -6,5 +6,5 @@ export const cloudShadowColor4 = '#300200';
 export const groundColor1 = '#207e79';
 export const groundColor2 = '#156080';
 export const skyColor = '#6AC5D6';
-export const ambientLightColor = '#444';
+export const ambientLightColor = '#aaa';
 export const sunColor = '#fff';

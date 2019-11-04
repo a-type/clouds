@@ -18,7 +18,7 @@ export type CloudProps = {
   velocity: Vector3;
   id: string;
   initialPosition: Vector3;
-  onExitBoundary: (id: string) => any;
+  onExitBoundary?: (id: string) => any;
   boundarySize: number;
   size?: number;
   resolution?: number;
@@ -35,7 +35,7 @@ export const Cloud: FC<CloudProps> = ({
   onExitBoundary,
   id,
   initialPosition,
-  size = 248,
+  size = 480,
   resolution: providedResolution = 64,
   boundarySize,
 }) => {
@@ -74,8 +74,9 @@ export const Cloud: FC<CloudProps> = ({
     );
     if (planePosition.x > boundarySize / 2 && !isExiting.current) {
       isExiting.current = true;
-      onExitBoundary(id);
+      onExitBoundary && onExitBoundary(id);
       generateLod().then(() => {
+        isExiting.current = false;
         if (!ref.current) return;
         ref.current.position.x = -(boundarySize / 2);
         ref.current.position.z =
@@ -123,11 +124,11 @@ export const Cloud: FC<CloudProps> = ({
         scale={[scale, scale, scale]}
         rotation={[0, rotation.current, 0]}
       >
-        <mesh geometry={geometry} position={[0, 3, 0]}>
+        <mesh geometry={geometry} position={[0, 2, 0]} castShadow>
           {/* <meshPhongMaterial color="#eee" attach="material" /> */}
           <CloudShaderMaterial attach="material" />
         </mesh>
-        <mesh
+        {/* <mesh
           position={[0, 0.5 + Math.random() * 0.01, 0]}
           rotation={[Math.PI * 1.5, 0, 0]}
         >
@@ -143,7 +144,7 @@ export const Cloud: FC<CloudProps> = ({
             alphaTest={15.0 / 255.0}
           />
           {/* <meshBasicMaterial color="#ffffff" attach="material" /> */}
-        </mesh>
+        {/*</mesh> */}
       </a.group>
     </>
   );

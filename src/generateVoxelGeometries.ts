@@ -17,6 +17,7 @@ function concatenate(a: Float32Array, b: Float32Array, length: number) {
 export default ({ resolution }: { resolution: number }) => {
   const chunkData: CloudWorkerData = {
     resolution,
+    inflationPasses: Math.floor(Math.random() * 2 + 2),
   };
 
   const worker = new Worker('./cubes.worker', {
