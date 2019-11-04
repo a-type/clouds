@@ -7,7 +7,7 @@ export type Triangle = {
   points: [THREE.Vector3, THREE.Vector3, THREE.Vector3];
 };
 
-export type GeometryData = {
+export type CloudWorkerResult = {
   hasPositions: boolean;
   positionArray: Float32Array;
   hasNormals: boolean;
@@ -20,6 +20,17 @@ export type GeometryData = {
   shadowMap: Float32Array;
 };
 
-export type WorkerData = {
+export type CloudWorkerData = {
   resolution: number;
+};
+
+export type LandWorkerData = {
+  resolution: number;
+  noiseSize: number;
+  groundColor1: string;
+  groundColor2: string;
+};
+
+export type LandWorkerResult = {
+  textureData: Uint8Array;
 };

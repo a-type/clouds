@@ -1,23 +1,26 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 import { CloudProps, Cloud } from './Cloud';
-import { Vector3, Color } from 'three';
-import { groundColor as groundColorString } from './colors';
+import { Vector3, Color, DataTexture } from 'three';
+import { groundColor1 as groundColorString } from './colors';
+import generateLandTexture from './generateLandTexture';
 
-const groundColor = new Color(groundColorString);
-
-const numClouds = 4;
-
-const planeSize = 10000;
+const planeSize = 100;
 
 export type CloudFieldProps = Omit<
   CloudProps,
   'onExitBoundary' | 'id' | 'initialPosition' | 'boundarySize'
 > & {
   size?: number;
+  numClouds?: number;
 };
 
-export const CloudMap: FC<CloudFieldProps> = ({ size = 25, ...cloudProps }) => {
+export const CloudMap: FC<CloudFieldProps> = ({
+  size = 80,
+  numClouds = 10,
+  ...cloudProps
+}) => {
   const [clouds, setClouds] = useState<{ [id: string]: CloudData }>({});
+  const [landTexture, setLandTexture] = useState<DataTexture>();
 
   useEffect(() => {
     const initClouds: { [id: string]: CloudData } = {};
@@ -39,21 +42,34 @@ export const CloudMap: FC<CloudFieldProps> = ({ size = 25, ...cloudProps }) => {
       };
     }
     setClouds(initClouds);
+  }, [size]);
+
+  useEffect(() => {
+    generateLandTexture({ resolution: planeSize * 10 }).then(({ texture }) =>
+      setLandTexture(texture),
+    );
   }, []);
 
-  const onCloudExitFrame = (id: string) => {
-    const newCloud = {
-      id: randomId(),
-      initialPosition: randomPosition(size),
-      size: randomSize(),
-    };
+  const onCloudExitFrame = useCallback(
+    (id: string) => {
+      const newCloud = {
+        id: randomId(),
+        initialPosition: randomPosition(size),
+        size: randomSize(),
+      };
 
-    setClouds(c => {
-      delete c[id];
-      c[newCloud.id] = newCloud;
-      return c;
-    });
-  };
+      // setClouds(c => {
+      //   const { [id]: _unused, ...rest } = c;
+      //   rest[newCloud.id] = newCloud;
+      //   return rest;
+      // });
+    },
+    [setClouds, size],
+  );
+
+  if (!landTexture) {
+    return null;
+  }
 
   return (
     <>
@@ -67,9 +83,13 @@ export const CloudMap: FC<CloudFieldProps> = ({ size = 25, ...cloudProps }) => {
           onExitBoundary={onCloudExitFrame}
         />
       ))}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-        <planeBufferGeometry args={[planeSize, planeSize]} attach="geometry" />
-        <meshBasicMaterial color={groundColor} attach="material" />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+        <planeGeometry args={[planeSize, planeSize]} attach="geometry" />
+        <meshLambertMaterial
+          //color={groundColor}
+          attach="material"
+          map={landTexture}
+        />
       </mesh>
     </>
   );

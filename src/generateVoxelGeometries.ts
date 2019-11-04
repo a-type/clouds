@@ -1,4 +1,4 @@
-import { WorkerData, GeometryData } from './types';
+import { CloudWorkerData, CloudWorkerResult } from './types';
 import {
   BufferGeometry,
   BufferAttribute,
@@ -15,15 +15,18 @@ function concatenate(a: Float32Array, b: Float32Array, length: number) {
 }
 
 export default ({ resolution }: { resolution: number }) => {
-  const chunkData: WorkerData = {
+  const chunkData: CloudWorkerData = {
     resolution,
   };
 
-  const worker = new Worker('./cubes.worker', { type: 'module' });
+  const worker = new Worker('./cubes.worker', {
+    name: 'CubeWorker',
+    type: 'module',
+  });
   return new Promise<{ geometry: BufferGeometry; shadow: DataTexture }>(
     (resolve, reject) => {
       worker.addEventListener('message', ev => {
-        const data = ev.data as GeometryData;
+        const data = ev.data as CloudWorkerResult;
 
         const geometry = new BufferGeometry();
         let positionArray = new Float32Array();

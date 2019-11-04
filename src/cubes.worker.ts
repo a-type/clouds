@@ -1,5 +1,5 @@
 import cubesValues from './cubesValues';
-import { WorkerData, GeometryData } from './types';
+import { CloudWorkerData, CloudWorkerResult } from './types';
 import cloudInflator from './cloudInflator';
 import { getValue } from './voxelField';
 
@@ -11,7 +11,7 @@ const context = self; // eslint-disable-line no-restricted-globals
 
 context.addEventListener('message', function(ev) {
   console.log('Worker started');
-  const data: WorkerData = ev.data;
+  const data: CloudWorkerData = ev.data;
 
   // temp buffers used to polygonize
   const vertexList = new Float32Array(12 * 3);
@@ -535,7 +535,7 @@ context.addEventListener('message', function(ev) {
     return shadowMap;
   }
 
-  function generate(data: WorkerData) {
+  function generate(data: CloudWorkerData) {
     //fillFieldWithPerlin();
     cloudInflator(field, size);
     blur();
@@ -558,7 +558,7 @@ context.addEventListener('message', function(ev) {
       }
     }
 
-    const result: GeometryData = {
+    const result: CloudWorkerResult = {
       hasPositions: true,
       positionArray,
       hasNormals: true,
