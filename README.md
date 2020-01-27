@@ -1,6 +1,31 @@
 # Clouds
 
+![clouds rendering](docs/React%20App.png)
+
 This is a ThreeJS experiment which eventually found a home on my [personal website](https://grantforrest.dev). I've created a simple algorithm to construct realistic, diverse cumulonimbus cloud formations in a voxel field, and render them with marching cubes. The cloud meshes are generated on a worker thread, then copied back to the main thread and loaded into a ThreeJS buffer geometry. I'm also using the excellent [react-three-fiber](https://github.com/react-spring/react-three-fiber) library to bind React to ThreeJS.
+
+## The Algorithm
+
+![illustration of inflation algorithm steps](docs/Sketch001.jpg)
+
+The algorithm to "inflate" the clouds is in [`src/cloudInflator.ts`](src/cloudInflator.ts). It works in stages:
+
+1. Draw a 2d Perlin noise slice near the 'floor' of the voxel field, masked to a circle
+2. In passes, iterate over each voxel and 'inflate' it based on certain criteria:
+   1. If the voxel is empty, don't inflate it
+   2. Inflation scales proportionally to how close the voxel is to the center of the voxel field
+
+"Inflation" is accomplished by adding the values of a sphere centered on the target voxel, with a radius determined by the inflation 'score' of that particular voxel according to the rules above.
+
+Although not precisely accurate to actual meteorological processes, this serves as a pretty good approximation of how rising air inflates the shape of a real cumulonimbus cloud. It results in a buffy, voluminous center with smaller formations on the boundaries of the circle.
+
+To complete the illusion, the whole structure is rotated and scaled randomly to avoid the appearance of being locked to a grid.
+
+## License
+
+MIT. Feel free to use the algorithm, including the exact code, however you like! Credit is appreciated. Make beautiful clouds.
+
+## Developing
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
