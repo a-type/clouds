@@ -1,3 +1,7 @@
+# Clouds
+
+This is a ThreeJS experiment which eventually found a home on my [personal website](https://grantforrest.dev). I've created a simple algorithm to construct realistic, diverse cumulonimbus cloud formations in a voxel field, and render them with marching cubes. The cloud meshes are generated on a worker thread, then copied back to the main thread and loaded into a ThreeJS buffer geometry. I'm also using the excellent [react-three-fiber](https://github.com/react-spring/react-three-fiber) library to bind React to ThreeJS.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
