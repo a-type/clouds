@@ -2,7 +2,7 @@
 
 ![clouds rendering](docs/React%20App.png)
 
-This is a ThreeJS experiment which eventually found a home on my [personal website](https://grantforrest.dev). I've created a simple algorithm to construct realistic, diverse cumulonimbus cloud formations in a voxel field, and render them with marching cubes. The cloud meshes are generated on a worker thread, then copied back to the main thread and loaded into a ThreeJS buffer geometry. I'm also using the excellent [react-three-fiber](https://github.com/react-spring/react-three-fiber) library to bind React to ThreeJS.
+This is a ThreeJS experiment which eventually found a home on my [personal website](https://gfor.rest). I've created a simple algorithm to construct realistic, diverse cumulonimbus cloud formations in a voxel field, and render them with marching cubes. The cloud meshes are generated on a worker thread, then copied back to the main thread and loaded into a ThreeJS buffer geometry. I'm also using the excellent [react-three-fiber](https://github.com/react-spring/react-three-fiber) library to bind React to ThreeJS.
 
 ## The Algorithm
 
@@ -17,7 +17,7 @@ The algorithm to "inflate" the clouds is in [`src/cloudInflator.ts`](src/cloudIn
 
 "Inflation" is accomplished by adding the values of a sphere centered on the target voxel, with a radius determined by the inflation 'score' of that particular voxel according to the rules above.
 
-Although not precisely accurate to actual meteorological processes, this serves as a pretty good approximation of how rising air inflates the shape of a real cumulonimbus cloud. It results in a buffy, voluminous center with smaller formations on the boundaries of the circle.
+Although not precisely accurate to actual meteorological processes, this serves as a pretty good approximation of how rising air inflates the shape of a real cumulonimbus cloud. It results in a puffy, voluminous center with smaller formations on the boundaries of the circle.
 
 To complete the illusion, the whole structure is rotated and scaled randomly to avoid the appearance of being locked to a grid.
 
